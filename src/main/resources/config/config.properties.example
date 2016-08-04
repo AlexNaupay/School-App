@@ -1,0 +1,5 @@
+##### Database config ... #####
+database.driverClassName=com.microsoft.sqlserver.jdbc.SQLServerDriver
+database.url=jdbc:sqlserver://localhost:1433;databaseName=DB_NAME
+database.username=USERNAME
+database.password=PASSWORD
