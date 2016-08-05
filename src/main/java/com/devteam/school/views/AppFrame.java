@@ -44,6 +44,11 @@ public class AppFrame extends javax.swing.JFrame {
         });
 
         jButton2.setText("Alumnos");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton2MouseReleased(evt);
+            }
+        });
 
         jButton3.setText("Cursos");
 
@@ -94,6 +99,17 @@ public class AppFrame extends javax.swing.JFrame {
             }
         });
     }//GEN-LAST:event_jbProfesoresMouseReleased
+
+    private void jButton2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseReleased
+        // TODO add your handling code here:
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                AlumnoFrame form = AlumnoFrame.getInstance();
+                form.setVisible(true);
+                form.toFront();
+            }
+        });
+    }//GEN-LAST:event_jButton2MouseReleased
 
     
 
