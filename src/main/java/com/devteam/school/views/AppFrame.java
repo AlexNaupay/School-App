@@ -33,10 +33,17 @@ public class AppFrame extends javax.swing.JFrame {
         jbAlumnoLaucher = new javax.swing.JButton();
         jbCorsoLaucher = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jbMatriculaLauncher = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jbProfesorLauncher.setText("Profesores");
+        jbProfesorLauncher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Graduation-2.png"))); // NOI18N
+        jbProfesorLauncher.setToolTipText("Profesores");
+        jbProfesorLauncher.setEnabled(false);
+        jbProfesorLauncher.setPreferredSize(new java.awt.Dimension(75, 75));
+        jbProfesorLauncher.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/table_refresh.png"))); // NOI18N
         jbProfesorLauncher.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jbProfesorLauncherMouseReleased(evt);
@@ -61,22 +68,43 @@ public class AppFrame extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Pedrito High School");
 
+        jbMatriculaLauncher.setText("Matrícula");
+        jbMatriculaLauncher.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbMatriculaLauncherMouseReleased(evt);
+            }
+        });
+
+        jButton2.setText("Consultar Notas");
+
+        jButton3.setText("Llenar Notas");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(121, 121, 121)
-                .addComponent(jbProfesorLauncher)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbAlumnoLaucher)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbCorsoLaucher)
-                .addContainerGap(82, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(121, 121, 121)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton3)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jbMatriculaLauncher)
+                            .addComponent(jbProfesorLauncher, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(520, 520, 520)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jbAlumnoLaucher)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbCorsoLaucher))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(jButton2)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -84,11 +112,18 @@ public class AppFrame extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(jLabel1)
                 .addGap(54, 54, 54)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbProfesorLauncher, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbAlumnoLaucher)
+                        .addComponent(jbCorsoLaucher)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbProfesorLauncher)
-                    .addComponent(jbAlumnoLaucher)
-                    .addComponent(jbCorsoLaucher))
-                .addContainerGap(165, Short.MAX_VALUE))
+                    .addComponent(jbMatriculaLauncher)
+                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addContainerGap(470, Short.MAX_VALUE))
         );
 
         pack();
@@ -127,12 +162,26 @@ public class AppFrame extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_jbCorsoLaucherMouseReleased
 
+    private void jbMatriculaLauncherMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbMatriculaLauncherMouseReleased
+        // TODO add your handling code here:
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                MatriculaFrame form = MatriculaFrame.getInstance();
+                form.setVisible(true);
+                form.toFront();
+            }
+        });
+    }//GEN-LAST:event_jbMatriculaLauncherMouseReleased
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton jbAlumnoLaucher;
     private javax.swing.JButton jbCorsoLaucher;
+    private javax.swing.JButton jbMatriculaLauncher;
     private javax.swing.JButton jbProfesorLauncher;
     // End of variables declaration//GEN-END:variables
 }

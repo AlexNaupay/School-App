@@ -30,5 +30,9 @@ public class Utils {
 
         return localDate.isAfter(dateMin) && localDate.isBefore(LocalDate.now());
     }
+
+    public static int currentYear(){
+        return  LocalDate.now().getYear();
+    }
     
 }
