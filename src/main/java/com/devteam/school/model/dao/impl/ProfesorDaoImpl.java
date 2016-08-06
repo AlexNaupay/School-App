@@ -4,6 +4,7 @@ import com.devteam.school.model.dao.ProfesorDao;
 import com.devteam.school.model.dao.mappers.ProfesorMapper;
 import com.devteam.school.model.entities.Profesor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
@@ -102,17 +103,21 @@ public class ProfesorDaoImpl implements ProfesorDao {
 
     @Override
     public boolean delete(long id) {
-        simpleJdbcCall = new SimpleJdbcCall(dataSource)
-                .withProcedureName("usp_delete_profesor")
-                .returningResultSet("profesores",new ProfesorMapper());
+        try{
+            simpleJdbcCall = new SimpleJdbcCall(dataSource)
+                    .withProcedureName("usp_delete_profesor")
+                    .returningResultSet("profesores",new ProfesorMapper());
 
-        SqlParameterSource sqlParameterSourceIn = new MapSqlParameterSource()
-                .addValue("id", id);
+            SqlParameterSource sqlParameterSourceIn = new MapSqlParameterSource()
+                    .addValue("id", id);
 
-        Map map = simpleJdbcCall.execute(sqlParameterSourceIn);
+            Map map = simpleJdbcCall.execute(sqlParameterSourceIn);
 
-        List list = (List) map.get("profesores");
-        return list.isEmpty();
+            List list = (List) map.get("profesores");
+            return list.isEmpty();
+        }catch (DataIntegrityViolationException dive){
+            return false;
+        }
     }
 
     @Override

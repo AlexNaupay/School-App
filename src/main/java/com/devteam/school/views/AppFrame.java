@@ -29,28 +29,33 @@ public class AppFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jbProfesores = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jbProfesorLauncher = new javax.swing.JButton();
+        jbAlumnoLaucher = new javax.swing.JButton();
+        jbCorsoLaucher = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jbProfesores.setText("Profesores");
-        jbProfesores.addMouseListener(new java.awt.event.MouseAdapter() {
+        jbProfesorLauncher.setText("Profesores");
+        jbProfesorLauncher.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jbProfesoresMouseReleased(evt);
+                jbProfesorLauncherMouseReleased(evt);
             }
         });
 
-        jButton2.setText("Alumnos");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+        jbAlumnoLaucher.setText("Alumnos");
+        jbAlumnoLaucher.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jButton2MouseReleased(evt);
+                jbAlumnoLaucherMouseReleased(evt);
             }
         });
 
-        jButton3.setText("Cursos");
+        jbCorsoLaucher.setText("Cursos");
+        jbCorsoLaucher.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbCorsoLaucherMouseReleased(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Droid Sans", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -62,11 +67,11 @@ public class AppFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(121, 121, 121)
-                .addComponent(jbProfesores)
+                .addComponent(jbProfesorLauncher)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(jbAlumnoLaucher)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addComponent(jbCorsoLaucher)
                 .addContainerGap(82, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -80,16 +85,16 @@ public class AppFrame extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbProfesores)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(jbProfesorLauncher)
+                    .addComponent(jbAlumnoLaucher)
+                    .addComponent(jbCorsoLaucher))
                 .addContainerGap(165, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbProfesoresMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbProfesoresMouseReleased
+    private void jbProfesorLauncherMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbProfesorLauncherMouseReleased
         // TODO add your handling code here:
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -98,9 +103,9 @@ public class AppFrame extends javax.swing.JFrame {
                 form.toFront();
             }
         });
-    }//GEN-LAST:event_jbProfesoresMouseReleased
+    }//GEN-LAST:event_jbProfesorLauncherMouseReleased
 
-    private void jButton2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseReleased
+    private void jbAlumnoLaucherMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbAlumnoLaucherMouseReleased
         // TODO add your handling code here:
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -109,14 +114,25 @@ public class AppFrame extends javax.swing.JFrame {
                 form.toFront();
             }
         });
-    }//GEN-LAST:event_jButton2MouseReleased
+    }//GEN-LAST:event_jbAlumnoLaucherMouseReleased
+
+    private void jbCorsoLaucherMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbCorsoLaucherMouseReleased
+        // TODO add your handling code here:
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                CursoFrame form = CursoFrame.getInstance();
+                form.setVisible(true);
+                form.toFront();
+            }
+        });
+    }//GEN-LAST:event_jbCorsoLaucherMouseReleased
 
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JButton jbProfesores;
+    private javax.swing.JButton jbAlumnoLaucher;
+    private javax.swing.JButton jbCorsoLaucher;
+    private javax.swing.JButton jbProfesorLauncher;
     // End of variables declaration//GEN-END:variables
 }

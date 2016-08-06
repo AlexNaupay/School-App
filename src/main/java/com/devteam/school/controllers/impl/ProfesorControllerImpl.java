@@ -42,7 +42,7 @@ public class ProfesorControllerImpl implements ProfesorController {
     }
 
     @Override
-    public Profesor getProfesorById(int id) {
+    public Profesor getProfesorById(long id) {
         return profesorService.findById(id);
     }
 

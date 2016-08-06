@@ -1,0 +1,19 @@
+package com.devteam.school.model.services;
+
+import com.devteam.school.model.entities.Curso;
+
+import java.util.List;
+
+public interface CursoService {
+    Curso save(Curso curso);
+
+    List<Curso> findAll();
+
+    Curso findById(long id);
+
+    Curso update(Curso curso);
+
+    boolean delete(long id);
+
+    List<Curso> search(String searchPattern);
+}

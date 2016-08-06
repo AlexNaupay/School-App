@@ -1,45 +1,48 @@
 package com.devteam.school.views;
 
 import com.devteam.school.app.AppContext;
+import com.devteam.school.controllers.CursoController;
 import com.devteam.school.controllers.ProfesorController;
+import com.devteam.school.model.entities.Curso;
 import com.devteam.school.model.entities.Profesor;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 
-public class ProfesorFrame extends javax.swing.JFrame {
+public class CursoFrame extends javax.swing.JFrame implements TransferData{
 
-    private static ProfesorFrame profesorFrame = new ProfesorFrame();
+    private static  CursoFrame cursoFrame = new CursoFrame();
     
-    //@Autowired
+    private final CursoController cursoController;
     private final ProfesorController profesorController;
-    private List<Profesor> profesores;
+    private List<Curso> cursos;
     
     private String accion = "guardar";
+    private Profesor profesorCurso;  // Profesor del curso
 
 
-    public static ProfesorFrame getInstance(){
-        if (profesorFrame == null){
-            profesorFrame = new ProfesorFrame();
+    public static CursoFrame getInstance(){
+        if (cursoFrame == null){
+            cursoFrame = new CursoFrame();
         }else
-            profesorFrame.restart();
-        return profesorFrame;
+            cursoFrame.restart();
+        return cursoFrame;
     }
 
     private void restart() { 
 //        System.out.println("I am Here!!!" + getClass().getName());
-        profesores = profesorController.getProfesores();
-        fillTable( profesores );
+        cursos = cursoController.getCursos();
+        fillTable( cursos );
     }
 
 
-    private ProfesorFrame() {
+    private CursoFrame() {
         initComponents();
         inhabilitar();
         
+        cursoController = (CursoController) AppContext.getAppContext().getBean("cursoController");
         profesorController = (ProfesorController) AppContext.getAppContext().getBean("profesorController");
     }
 
@@ -55,27 +58,23 @@ public class ProfesorFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jtfNombre = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jtfDNI = new javax.swing.JTextField();
         jbNuevo = new javax.swing.JButton();
         jbGuardar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jtfApellidos = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jtfDireccion = new javax.swing.JTextField();
-        jtfEmail = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
+        jtfProfesor = new javax.swing.JTextField();
         jtfId = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jtfUsuario = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jtfPassword = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtaDescripcion = new javax.swing.JTextArea();
+        jbElegirProfesor = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
         jlTitulo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jtProfesores = new javax.swing.JTable();
+        jtCursos = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         jtfTextoBuscar = new javax.swing.JTextField();
         jbBuscar = new javax.swing.JButton();
@@ -87,9 +86,7 @@ public class ProfesorFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("DATOS DEL PROFESOR"));
-
-        jLabel6.setText("DNI:");
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("DATOS DEL CURSO"));
 
         jbNuevo.setBackground(new java.awt.Color(51, 51, 51));
         jbNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/user_add.png"))); // NOI18N
@@ -109,95 +106,91 @@ public class ProfesorFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Apellidos:");
+        jLabel3.setText("Descripción:");
 
-        jLabel8.setText("Dirección:");
+        jLabel8.setText("Profesor:");
 
-        jLabel11.setText("Email:");
+        jtfProfesor.setEnabled(false);
 
         jtfId.setEditable(false);
         jtfId.setEnabled(false);
 
         jLabel12.setText("Código:");
 
-        jLabel4.setText("Usuario:");
-
-        jLabel5.setText("Password");
-
         jLabel1.setText("Nombre:");
+
+        jtaDescripcion.setColumns(20);
+        jtaDescripcion.setRows(5);
+        jScrollPane1.setViewportView(jtaDescripcion);
+
+        jbElegirProfesor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/application_view_list.png"))); // NOI18N
+        jbElegirProfesor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbElegirProfesorMouseReleased(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1º Grado", "2º Grado", "3º Grado", "4º Grado", "5º Grado" }));
+
+        jLabel4.setText("Grado:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(146, 146, 146)
+                .addComponent(jbNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(61, 61, 61)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jtfDireccion, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                            .addComponent(jtfEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                            .addComponent(jtfDNI, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-                            .addComponent(jtfApellidos, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                            .addComponent(jtfNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
-                            .addComponent(jtfId, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
-                            .addComponent(jtfUsuario)
-                            .addComponent(jtfPassword)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(132, 132, 132)
-                        .addComponent(jbNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jtfNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                    .addComponent(jtfId, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jtfProfesor)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbElegirProfesor))
+                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(17, 17, 17))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jtfApellidos, jtfDNI, jtfDireccion, jtfEmail, jtfId, jtfNombre});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jtfId, jtfNombre});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(13, 13, 13)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jtfId, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jtfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
                 .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jtfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtfNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jtfApellidos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jtfDNI, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jtfEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jtfDireccion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtfUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jLabel3)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jtfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jbElegirProfesor)
+                    .addComponent(jtfProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbGuardar)
@@ -207,12 +200,12 @@ public class ProfesorFrame extends javax.swing.JFrame {
 
         jlTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jlTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlTitulo.setText("PROFESORES");
+        jlTitulo.setText("ADMINISTRACIÓN DE CURSOS");
         jlTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("PROFESORES"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("CURSOS"));
 
-        jtProfesores.setModel(new javax.swing.table.DefaultTableModel(
+        jtCursos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -220,12 +213,12 @@ public class ProfesorFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jtProfesores.addMouseListener(new java.awt.event.MouseAdapter() {
+        jtCursos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtProfesoresMouseClicked(evt);
+                jtCursosMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(jtProfesores);
+        jScrollPane3.setViewportView(jtCursos);
 
         jLabel9.setText("Buscar");
 
@@ -273,14 +266,14 @@ public class ProfesorFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addGap(18, 18, 18)
-                        .addComponent(jtfTextoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jtfTextoBuscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
+                        .addGap(22, 22, 22)
                         .addComponent(jbEliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -293,13 +286,12 @@ public class ProfesorFrame extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jtfTextoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel9))
-                    .addComponent(jbBuscar, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jbEliminar, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jbActualizarTabla, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel9)
+                    .addComponent(jtfTextoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbBuscar)
+                    .addComponent(jbEliminar)
+                    .addComponent(jbActualizarTabla))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
@@ -338,15 +330,14 @@ public class ProfesorFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    private void inhabilitar() {  
+    private void inhabilitar() {
+         jtfId.setEnabled(false);
         jtfNombre.setEnabled(false);
-        jtfApellidos.setEnabled(false);
-        jtfDNI.setEnabled(false);
-        jtfDireccion.setEnabled(false);
-        jtfEmail.setEnabled(false);
-        jtfId.setEnabled(false);
-        jtfUsuario.setEnabled(false);
-        jtfPassword.setEnabled(false);
+        jtaDescripcion.setEnabled(false);
+
+        jtfProfesor.setEnabled(false);
+        jbElegirProfesor.setEnabled(false);
+       
 
         jbGuardar.setEnabled(false);
         jbEliminar.setEnabled(false);
@@ -356,15 +347,12 @@ public class ProfesorFrame extends javax.swing.JFrame {
     }
     
      private void habilitar() {
-        //jtfCodigoProfesor.setEnabled(true);
+        //jtfCodigoCurso.setEnabled(true);
         jtfNombre.setEnabled(true);
-        jtfApellidos.setEnabled(true);
-        jtfDNI.setEnabled(true);
-        jtfDireccion.setEnabled(true);
-        jtfEmail.setEnabled(true);
-        jtfUsuario.setEnabled(true);
-        jtfPassword.setEnabled(true);
+        jtaDescripcion.setEnabled(true);
         
+        //jtfProfesor.setEnabled(true); 
+        jbElegirProfesor.setEnabled(true);
 
         jbGuardar.setEnabled(true);
         jbEliminar.setEnabled(true);
@@ -375,81 +363,37 @@ public class ProfesorFrame extends javax.swing.JFrame {
     private void initFields(){
         jtfId.setText("");
         jtfNombre.setText("");
-        jtfApellidos.setText("");
-        jtfDNI.setText("");
-        jtfDireccion.setText("");
-        jtfEmail.setText("");
-        jtfUsuario.setText("");
-        jtfPassword.setText("");
+        jtaDescripcion.setText("");
+
+        jtfProfesor.setText("");
+        profesorCurso = null;
+
     }
   
 
     
-    private void fillTable(List<Profesor> profesores){
-        String[] titles = {"ID", "Nombre", "Apellidos", "DNI", "email", "Dirección", "usuario"};
+    public void fillTable(List<Curso> cursos){
+        String[] titles = {"ID", "Nombre", "Descripción", "Profesor"};
         DefaultTableModel model = new DefaultTableModel(null, titles);
 
-        String[] row = new String[7];
+        String[] row = new String[4];
 
+        Profesor profesor;
                 
-        for (Profesor profesor : profesores){
-            row[0] = String.valueOf( profesor.getId() );
-            row[1] = profesor.getNombre();
-            row[2] = profesor.getApellidos();
-            row[3] = profesor.getDni();
-            row[4] = profesor.getEmail();
-            row[5] = profesor.getDireccion();
-            row[6] = profesor.getUsername();
-            //row[7] = profesor.getPassword();
+        for (Curso curso : cursos){
+            row[0] = String.valueOf( curso.getId() );
+            row[1] = curso.getNombre();
+            row[2] = curso.getDescripcion();
+            profesor = profesorController.getProfesorById(curso.getProfesorId());
+            row[3] = profesor.getNombre() + " " + profesor.getApellidos();
 
             model.addRow(row);
         }
 
-        jtProfesores.setModel(model);
-        jlTotalRegistros.setText( profesores.size() + " profesores");
+        jtCursos.setModel(model);
+        jlTotalRegistros.setText( cursos.size() + " cursos");
     }
     
-    private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
-        // TODO add your handling code here:
-        habilitar();
-        jbGuardar.setText("Guardar");
-        accion = "guardar";
-    }//GEN-LAST:event_jbNuevoActionPerformed
-
-    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-        Profesor profesor = new Profesor();
-        profesor.setNombre(jtfNombre.getText());
-        profesor.setApellidos(jtfApellidos.getText());
-        profesor.setDni(jtfDNI.getText());
-        profesor.setDireccion(jtfDireccion.getText());
-        profesor.setEmail(jtfEmail.getText());
-        profesor.setUsername(jtfUsuario.getText());
-        profesor.setPassword(jtfPassword.getText());
-
-        if (accion.equals("guardar")) {
-            profesor = profesorController.saveProfesor(profesor);
-            if (profesor != null ) {
-                JOptionPane.showMessageDialog(rootPane, "El profesor fue registrado correctamente");
-                profesores = profesorController.getProfesores();
-                fillTable(profesores);
-                jtfId.setText( String.valueOf(profesor.getId()) );
-                inhabilitar(); 
-                
-            }
-        }
-        else if (accion.equals("editar")){
-            profesor.setId(Integer.parseInt(jtfId.getText()));
-
-            profesor = profesorController.updateProfesor(profesor);
-            if (profesor != null ) {
-                JOptionPane.showMessageDialog(rootPane, "El Profesor fue actualizado correctamente");
-                profesores = profesorController.getProfesores();
-                fillTable(profesores);
-                //inhabilitar();
-            }
-        }
-    }//GEN-LAST:event_jbGuardarActionPerformed
-
     private void jbActualizarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbActualizarTablaActionPerformed
         // TODO add your handling code here:
         search();
@@ -458,18 +402,18 @@ public class ProfesorFrame extends javax.swing.JFrame {
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
         // TODO add your handling code here:
         if (!jtfId.getText().equals("")) {
-            int confirmacion = JOptionPane.showConfirmDialog(rootPane, "Estás seguro de Eliminar al Profesor?","Confirmar",JOptionPane.INFORMATION_MESSAGE);
+            int confirmacion = JOptionPane.showConfirmDialog(rootPane, "Estás seguro de Eliminar el Curso?","Confirmar",JOptionPane.INFORMATION_MESSAGE);
 
             if (confirmacion == 0) {
                 long id =  Integer.parseInt(jtfId.getText());
-                if (profesorController.deleteProfesor(id)){
-                    profesores = profesorController.getProfesores();
-                    fillTable(profesores);
+                if (cursoController.deleteCurso(id)){
+                    cursos = cursoController.getCursos();
+                    fillTable(cursos);
                     initFields();
                     inhabilitar();
                     
                 }else{
-                    JOptionPane.showMessageDialog(rootPane, "No se pudo eliminar al Profesor","Error al Eliminar",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(rootPane, "No se pudo eliminar al Curso","Error al Eliminar",JOptionPane.ERROR_MESSAGE);
                 }
                 
             }
@@ -483,20 +427,20 @@ public class ProfesorFrame extends javax.swing.JFrame {
                 
     }//GEN-LAST:event_jbBuscarActionPerformed
 
-    private void jtProfesoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtProfesoresMouseClicked
+    private void jtCursosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtCursosMouseClicked
         // TODO add your handling code here:
         jbGuardar.setText("Actualizar");
         habilitar();
         jbEliminar.setEnabled(true);
         accion = "editar";
 
-        int fila = jtProfesores.rowAtPoint(evt.getPoint());
-        //int id = Integer.parseInt(jtProfesores.getValueAt(fila, 0).toString());
+        int fila = jtCursos.rowAtPoint(evt.getPoint());
+        //int id = Integer.parseInt(jtCursoes.getValueAt(fila, 0).toString());
 
-        //Profesor profesor = profesorController.getProfesorById(id);
-        
-        fillFormProfesor(profesores.get(fila));
-    }//GEN-LAST:event_jtProfesoresMouseClicked
+        Curso curso = cursos.get(fila);
+        profesorCurso = profesorController.getProfesorById(curso.getProfesorId());
+        fillFormCurso( curso );
+    }//GEN-LAST:event_jtCursosMouseClicked
 
     private void jtfTextoBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfTextoBuscarKeyReleased
         // TODO add your handling code here:
@@ -506,56 +450,114 @@ public class ProfesorFrame extends javax.swing.JFrame {
               
     }//GEN-LAST:event_jtfTextoBuscarKeyReleased
 
+    private void jbElegirProfesorMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbElegirProfesorMouseReleased
+        // TODO add your handling code here:
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                ProfesorChooseDialog dialog = new ProfesorChooseDialog( cursoFrame, true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setTransfer(cursoFrame);
+
+                dialog.setVisible(true);  // Si lo llamas antes, no funciona
+            }
+        });
+    }//GEN-LAST:event_jbElegirProfesorMouseReleased
+
+    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+        Curso curso = new Curso();
+        curso.setNombre(jtfNombre.getText());
+        curso.setDescripcion(jtaDescripcion.getText());
+
+        if(profesorCurso != null )
+        curso.setProfesorId( profesorCurso.getId() );
+
+        if (accion.equals("guardar")) {
+            curso = cursoController.saveCurso(curso);
+            if (curso != null ) {
+                cursos = cursoController.getCursos();
+                fillTable(cursos);
+                jtfId.setText(String.valueOf(curso.getId()) );
+                inhabilitar();
+                JOptionPane.showMessageDialog(rootPane, "El curso fue registrado correctamente");
+
+            }
+        }
+        else if (accion.equals("editar")){
+            curso.setId(Integer.parseInt(jtfId.getText()));
+
+            curso = cursoController.updateCurso(curso);
+            if (curso != null ) {
+
+                cursos = cursoController.getCursos();
+                fillTable(cursos);
+                //inhabilitar();
+                JOptionPane.showMessageDialog(rootPane, "El curso fue actualizado correctamente");
+            }
+        }
+    }//GEN-LAST:event_jbGuardarActionPerformed
+
+    private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
+        // TODO add your handling code here:
+        habilitar();
+        jbGuardar.setText("Guardar");
+        accion = "guardar";
+    }//GEN-LAST:event_jbNuevoActionPerformed
+
     private void search(){
         String searchText = jtfTextoBuscar.getText();
-        profesores = profesorController.searchProfesores(searchText);
-        fillTable(profesores);
+        cursos = cursoController.searchCursos(searchText);
+        fillTable(cursos);
         inhabilitar();
     }
     
-    private void fillFormProfesor(Profesor profesor){
-        jtfId.setText(String.valueOf(profesor.getId()));
-        jtfNombre.setText(profesor.getNombre());
-        jtfApellidos.setText(profesor.getApellidos());
-        jtfDNI.setText(profesor.getDni());
-        jtfDireccion.setText(profesor.getDireccion());
-        jtfEmail.setText(profesor.getEmail());
-        jtfUsuario.setText(profesor.getUsername());
-        jtfPassword.setText(profesor.getPassword());
+    private void fillFormCurso(Curso curso){
+        jtfId.setText(String.valueOf(curso.getId()));
+        jtfNombre.setText(curso.getNombre());
+        jtaDescripcion.setText(curso.getDescripcion());
+
+        jtfProfesor.setText(profesorCurso.getNombre() + " " + profesorCurso.getApellidos());
+        
     }
     
-    
+    @Override
+    public void transfer(Object data) {
+        profesorCurso = (Profesor)data;
+        jtfProfesor.setText(profesorCurso.getNombre() + " " + profesorCurso.getApellidos());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JButton jbActualizarTabla;
     private javax.swing.JButton jbBuscar;
+    private javax.swing.JButton jbElegirProfesor;
     private javax.swing.JButton jbEliminar;
     private javax.swing.JButton jbGuardar;
     private javax.swing.JButton jbNuevo;
     private javax.swing.JLabel jlTitulo;
     private javax.swing.JLabel jlTotalRegistros;
-    private javax.swing.JTable jtProfesores;
-    private javax.swing.JTextField jtfApellidos;
-    private javax.swing.JTextField jtfDNI;
-    private javax.swing.JTextField jtfDireccion;
-    private javax.swing.JTextField jtfEmail;
+    private javax.swing.JTable jtCursos;
+    private javax.swing.JTextArea jtaDescripcion;
     private javax.swing.JTextField jtfId;
     private javax.swing.JTextField jtfNombre;
-    private javax.swing.JTextField jtfPassword;
+    private javax.swing.JTextField jtfProfesor;
     private javax.swing.JTextField jtfTextoBuscar;
-    private javax.swing.JTextField jtfUsuario;
     // End of variables declaration//GEN-END:variables
+
+    
 }

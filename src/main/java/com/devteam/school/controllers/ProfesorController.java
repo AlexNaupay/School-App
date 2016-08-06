@@ -14,7 +14,7 @@ public interface ProfesorController {
 
     List<Profesor> searchProfesores(String searchPattern);
 
-    Profesor getProfesorById(int id);
+    Profesor getProfesorById(long id);
 
     boolean deleteProfesor(long id);
 }
