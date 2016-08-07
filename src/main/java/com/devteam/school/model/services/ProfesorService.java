@@ -16,4 +16,6 @@ public interface ProfesorService {
     boolean delete(long id);
 
     List<Profesor> search(String searchPattern);
+
+    Profesor findByUsername(String username);
 }

@@ -25,10 +25,11 @@ public class App {
 
     public void test(){
         
-        AppFrame app = new AppFrame();
-        AppFrame.setDefaultLookAndFeelDecorated(true);
-//        LoginFrame app = new LoginFrame();
+//        AppFrame app = new AppFrame();
 //        AppFrame.setDefaultLookAndFeelDecorated(true);
+        
+        LoginFrame app = new LoginFrame();
+        AppFrame.setDefaultLookAndFeelDecorated(true);
         
 //        SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.RavenSkin");
 //        SubstanceLookAndFeel.setCurrentTheme("org.jvnet.substance.theme.SubstanceRavenTheme");

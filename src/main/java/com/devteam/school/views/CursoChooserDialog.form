@@ -123,14 +123,14 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jtAlumnos">
+            <Component class="javax.swing.JTable" name="jtCursos">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="0" rowCount="0"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jtAlumnosMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jtCursosMouseClicked"/>
               </Events>
             </Component>
           </SubComponents>
@@ -190,7 +190,7 @@
           <Font name="Tahoma" size="18" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="ALUMNOS REGISTRADOS"/>
+        <Property name="text" type="java.lang.String" value="CURSOS REGISTRADOS"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
       </Properties>
     </Component>

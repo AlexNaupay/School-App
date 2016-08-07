@@ -1,42 +1,60 @@
 package com.devteam.school.views;
 
 import com.devteam.school.app.AppContext;
+import com.devteam.school.app.Session;
 import com.devteam.school.app.Utils;
+import com.devteam.school.controllers.CursoController;
 import com.devteam.school.controllers.MatriculaController;
 import com.devteam.school.model.entities.*;
+import java.util.ArrayList;
 
 import java.util.List;
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 
-public class MatriculaFrame extends javax.swing.JFrame implements TransferData{
+public class LlenarNotasFrame extends javax.swing.JFrame implements TransferData{
 
-    private static  MatriculaFrame matriculaFrame;
+    private static  LlenarNotasFrame llenarNotasFrame;
     
     private final MatriculaController matriculaController;
+    private final CursoController cursoController;
     
     private String accion = "guardar";
-    private Alumno alumnoMatricula;  // Alumno del matricula
+    private Profesor profesorMatricula;  // Profesor del consulta
+    private List<Curso> cursosProfesor;
+    
 
-
-    public static MatriculaFrame getInstance(){
-        if (matriculaFrame == null){
-            matriculaFrame = new MatriculaFrame();
+    public static LlenarNotasFrame getInstance(){
+        if (llenarNotasFrame == null){
+            llenarNotasFrame = new LlenarNotasFrame();
         }else
-            matriculaFrame.restart();
-        return matriculaFrame;
+            llenarNotasFrame.restart();
+        return llenarNotasFrame;
     }
 
     private void restart() { 
-        resetForm();
+        //resetForm();
     }
 
 
-    private MatriculaFrame() {
-        initComponents();        
-        
+    private LlenarNotasFrame() {
+        initComponents();
+                
         matriculaController = (MatriculaController) AppContext.getAppContext().getBean("matriculaController");
+        cursoController = (CursoController) AppContext.getAppContext().getBean("cursoController");
+        
+        Session session = Session.getSession();
+        if (session != null)
+            if (session.getUserid() != 0){ // No admin user
+                jtfProfesor.setText(session.getUserFullName());
+                jbElegirProfesor.setEnabled(false); jbElegirProfesor.setToolTipText("Solo para el administrador ...");
+                
+                profesorMatricula = new Profesor();
+                profesorMatricula.setId(session.getUserid());
+                profesorMatricula.setUsername(session.getUsername());
+                
+                loadCursosProfesor(profesorMatricula.getId());
+            }
          
     }
 
@@ -51,23 +69,22 @@ public class MatriculaFrame extends javax.swing.JFrame implements TransferData{
 
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jtfAlumno = new javax.swing.JTextField();
-        jbMatricular = new javax.swing.JButton();
+        jtfProfesor = new javax.swing.JTextField();
+        jbCargarDatos = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jtfId = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jbElegirAlumno = new javax.swing.JButton();
+        jbElegirProfesor = new javax.swing.JButton();
         jcbGrado = new javax.swing.JComboBox<>();
-        jLabel4 = new javax.swing.JLabel();
-        jbNuevaMatricula = new javax.swing.JButton();
+        jcbCursos = new javax.swing.JComboBox<>();
         jlTitulo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jtCursos = new javax.swing.JTable();
-        jbActualizarTabla = new javax.swing.JButton();
+        jtNotas = new javax.swing.JTable();
+        jbGuardarDatos = new javax.swing.JButton();
         jlTotalRegistros = new javax.swing.JLabel();
         jlCursosJalados = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         jLabel2.setText("Nombre:");
 
@@ -76,109 +93,86 @@ public class MatriculaFrame extends javax.swing.JFrame implements TransferData{
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("DATOS DE MATRÍCULA"));
 
-        jtfAlumno.setEditable(false);
+        jtfProfesor.setEditable(false);
 
-        jbMatricular.setBackground(new java.awt.Color(51, 51, 51));
-        jbMatricular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/database_save.png"))); // NOI18N
-        jbMatricular.setText("Matricular");
-        jbMatricular.addActionListener(new java.awt.event.ActionListener() {
+        jbCargarDatos.setBackground(new java.awt.Color(51, 51, 51));
+        jbCargarDatos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/table_refresh.png"))); // NOI18N
+        jbCargarDatos.setText("Aceptar");
+        jbCargarDatos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbMatricularActionPerformed(evt);
+                jbCargarDatosActionPerformed(evt);
             }
         });
 
         jLabel3.setText("Grado:");
 
-        jtfId.setEditable(false);
-        jtfId.setEnabled(false);
+        jLabel12.setText("Profesor:");
 
-        jLabel12.setText("Código:");
+        jLabel1.setText("Curso:");
 
-        jLabel1.setText("Alumno:");
-
-        jbElegirAlumno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/application_view_list.png"))); // NOI18N
-        jbElegirAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
+        jbElegirProfesor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/application_view_list.png"))); // NOI18N
+        jbElegirProfesor.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jbElegirAlumnoMouseReleased(evt);
+                jbElegirProfesorMouseReleased(evt);
             }
         });
 
         jcbGrado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1º", "2º", "3º", "4º", "5º" }));
-
-        jLabel4.setBackground(new java.awt.Color(255, 179, 0));
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ballon.png"))); // NOI18N
-        jLabel4.setText("Asegúrece de elegir correctamente los datos.");
-        jLabel4.setOpaque(true);
-
-        jbNuevaMatricula.setText("Nuevo");
-        jbNuevaMatricula.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jbNuevaMatriculaMouseReleased(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbCargarDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
                             .addComponent(jLabel1)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jtfId, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jtfAlumno)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jtfProfesor)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jbElegirAlumno))
-                            .addComponent(jcbGrado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(jbElegirProfesor))
+                            .addComponent(jcbGrado, 0, 236, Short.MAX_VALUE)
+                            .addComponent(jcbCursos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(17, 17, 17))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(92, 92, 92)
-                .addComponent(jbNuevaMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbMatricular, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jtfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbElegirProfesor)
+                    .addComponent(jtfProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jtfAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbElegirAlumno)
-                    .addComponent(jLabel1))
-                .addGap(17, 17, 17)
+                    .addComponent(jLabel1)
+                    .addComponent(jcbCursos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jcbGrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addGap(32, 32, 32)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbMatricular)
-                    .addComponent(jbNuevaMatricula))
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(jbCargarDatos)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jlTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jlTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlTitulo.setText("MATRÍCULA DE ALUMNOS");
+        jlTitulo.setText("LLENADO  DE NOTAS");
         jlTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("NOTAS ANTERIORES"));
 
-        jtCursos.setModel(new javax.swing.table.DefaultTableModel(
+        jtNotas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -186,14 +180,14 @@ public class MatriculaFrame extends javax.swing.JFrame implements TransferData{
 
             }
         ));
-        jScrollPane3.setViewportView(jtCursos);
+        jScrollPane3.setViewportView(jtNotas);
 
-        jbActualizarTabla.setBackground(new java.awt.Color(51, 51, 51));
-        jbActualizarTabla.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/update.png"))); // NOI18N
-        jbActualizarTabla.setText("Actualizar");
-        jbActualizarTabla.addActionListener(new java.awt.event.ActionListener() {
+        jbGuardarDatos.setBackground(new java.awt.Color(51, 51, 51));
+        jbGuardarDatos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/database_save.png"))); // NOI18N
+        jbGuardarDatos.setText("Guardar");
+        jbGuardarDatos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbActualizarTablaActionPerformed(evt);
+                jbGuardarDatosActionPerformed(evt);
             }
         });
 
@@ -201,6 +195,11 @@ public class MatriculaFrame extends javax.swing.JFrame implements TransferData{
         jlTotalRegistros.setText("Registros");
 
         jlCursosJalados.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+
+        jLabel4.setBackground(new java.awt.Color(255, 179, 0));
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ballon.png"))); // NOI18N
+        jLabel4.setText("Antes de guardar verifique los datos");
+        jLabel4.setOpaque(true);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -211,8 +210,9 @@ public class MatriculaFrame extends javax.swing.JFrame implements TransferData{
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jbActualizarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(90, 90, 90)
+                        .addComponent(jbGuardarDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jlTotalRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -222,9 +222,11 @@ public class MatriculaFrame extends javax.swing.JFrame implements TransferData{
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(jbActualizarTabla)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jbGuardarDatos)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
                 .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlTotalRegistros)
@@ -264,126 +266,112 @@ public class MatriculaFrame extends javax.swing.JFrame implements TransferData{
 
         
     public void fillTable(List<MatriculaDetalle> mdetalles){
-        String[] titles = {"ID", "Curso", "Grado","Promedio","Profesor"};
+        String[] titles = {"ID", "Alumno", "Nota 1","Nota 2", "Nota 3", "Promedio"};
         DefaultTableModel model = new DefaultTableModel(null, titles);
 
-        String[] row = new String[5];
+        String[] row = new String[6];
         
         int jalados = 0;
                 
         for (MatriculaDetalle mdetalle : mdetalles){
             row[0] = String.valueOf( mdetalle.getId() );
-            row[1] = mdetalle.getCursoNombre();
-            row[2] = mdetalle.getGrado() + "º";
+            row[1] = mdetalle.getAlumnoNombre();
+            row[2] = mdetalle.getNota1()+ "";
+            row[3] = mdetalle.getNota2()+ "";
+            row[4] = mdetalle.getNota3()+ "";
             
-            row[3] = mdetalle.getPromedio() + "";
-            row[4] = mdetalle.getProfesorNombre();
+            row[5] = mdetalle.getPromedio() + "";
+ 
 
             if(mdetalle.getPromedio() < 11) jalados++;
             
             model.addRow(row);
         }
 
-        jtCursos.setModel(model);
-        jlTotalRegistros.setText( mdetalles.size() + " cursos");
-        jlCursosJalados.setText(jalados + "Jalados");
+        jtNotas.setModel(model);
+        jlTotalRegistros.setText( mdetalles.size() + " Alumnos");
+        jlCursosJalados.setText(jalados + " Jalados");
     }
     
-    private void jbActualizarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbActualizarTablaActionPerformed
+    private void jbGuardarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarDatosActionPerformed
         // TODO add your handling code here:
-        updateTable();
-    }//GEN-LAST:event_jbActualizarTablaActionPerformed
-
-    private void jbMatricularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMatricularActionPerformed
-
-        int grado = jcbGrado.getSelectedIndex() + 1;
-
-        Matricula matricula = new Matricula();
-        matricula.setAnio(Utils.currentYear());
-        matricula.setGrado(grado);
-        if (alumnoMatricula != null) matricula.setAlumnoId(alumnoMatricula.getId());
-
-
-        if (accion.equals("guardar")) {
-            matricula = matriculaController.saveMatricula(matricula);
-            if (matricula != null ) {
-                jtfId.setText(String.valueOf(matricula.getId()) );
-                //resetForm();
-                JOptionPane.showMessageDialog(rootPane, "La matrícula fue registrado correctamente");
-                jbMatricular.setText("Actualizar");
-                accion = "editar";
-
-            }
-        }
-        else if (accion.equals("editar")){
-            matricula.setId(Integer.parseInt(jtfId.getText()));
-
-            matricula = matriculaController.updateMatricula(matricula);
-            if (matricula != null ) {
-                //inhabilitar();
-                JOptionPane.showMessageDialog(rootPane, "La matrícula fue actualizado correctamente");
-            }
-        }
         
-    }//GEN-LAST:event_jbMatricularActionPerformed
+        List<MatriculaDetalle> detalles = new ArrayList<>();
+        int numeroFilas = jtNotas.getModel().getRowCount();
 
-    private void jbElegirAlumnoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbElegirAlumnoMouseReleased
-        // TODO add your handling code here:
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                AlumnoChooserDialog dialog = new AlumnoChooserDialog( matriculaFrame, true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setTransfer(matriculaFrame);
+        System.out.println("Filasss:" + numeroFilas); 
+        
+        MatriculaDetalle detalle;
+        DefaultTableModel model = (DefaultTableModel) jtNotas.getModel();
+
+        for (int i = 0; i< numeroFilas ; i++){
+            detalle = new MatriculaDetalle();
+            detalle.setId( Integer.parseInt(model.getValueAt(i,0).toString()) );
+            detalle.setNota1( Integer.parseInt(model.getValueAt(i,2).toString()) );
+            detalle.setNota2( Integer.parseInt(model.getValueAt(i,3).toString()) );
+            detalle.setNota3( Integer.parseInt(model.getValueAt(i,4).toString()) );
+
+            detalles.add(detalle);
+        }
+
+        detalles = matriculaController.updateNotas(detalles);
+        if (detalles != null){
+            fillTable(detalles);
+        }else {
+            Utils.showErrorMessage(rootPane, "Error al actualizar, contacta al Administrador");
+        }
                 
-                dialog.setVisible(true);  // Si lo llamas antes, no funciona
-            }
-        });
-    }//GEN-LAST:event_jbElegirAlumnoMouseReleased
+        //updateTable();
+    }//GEN-LAST:event_jbGuardarDatosActionPerformed
 
-    private void jbNuevaMatriculaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbNuevaMatriculaMouseReleased
+    private void jbCargarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCargarDatosActionPerformed
+
+        try{
+            int cursoIndex = jcbCursos.getSelectedIndex();
+            long cursoId = -1;
+            if(cursoIndex >= 0)
+                if(cursosProfesor != null && !cursosProfesor.isEmpty())
+                    cursoId = cursosProfesor.get(cursoIndex).getId();
+
+            int grado = jcbGrado.getSelectedIndex(); grado++;
+
+            List<MatriculaDetalle> detalles = matriculaController.getStudentsCourse(cursoId,grado);
+
+            fillTable(detalles);
+        }catch(Exception e){
+            System.out.println("Error al consultar ...");
+        }
+        
+    }//GEN-LAST:event_jbCargarDatosActionPerformed
+
+    private void jbElegirProfesorMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbElegirProfesorMouseReleased
         // TODO add your handling code here:
-        resetForm();
-    }//GEN-LAST:event_jbNuevaMatriculaMouseReleased
-    
-    private void resetForm(){
-        alumnoMatricula = null;
-        jtfAlumno.setText("");
-        jtfId.setText("");
-        jbMatricular.setText("Matricular");
-        jcbGrado.setSelectedIndex(0);
-        //jbMatricular.setEnabled(false);
-        accion = "guardar";
-    }
-    
-    private void updateTable(Alumno alumno){
-        if( alumnoMatricula == null || alumno.getId() != alumnoMatricula.getId()){
-            alumnoMatricula = alumno;
-            List<MatriculaDetalle> detalles = matriculaController.getPreviousAcademicBackground(alumnoMatricula.getId());
-            fillTable(detalles);
+        if(jbElegirProfesor.isEnabled()){
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    ProfesorChooserDialog dialog = new ProfesorChooserDialog( llenarNotasFrame, true);
+                    dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                        @Override
+                        public void windowClosing(java.awt.event.WindowEvent e) {
+                            System.exit(0);
+                        }
+                    });
+                    dialog.setTransfer(llenarNotasFrame);
+
+                    dialog.setVisible(true);  // Si lo llamas antes, no funciona
+                }
+            });
         }
-        
-    }
+    }//GEN-LAST:event_jbElegirProfesorMouseReleased
     
-    private void updateTable(){
-        if( alumnoMatricula != null ){
-            List<MatriculaDetalle> detalles = matriculaController.getPreviousAcademicBackground(alumnoMatricula.getId());
-            fillTable(detalles);
-        }
-        
-    }
-    
+           
     @Override
     public void transfer(Object data) {
-        Alumno alumno = (Alumno)data;
-        jtfAlumno.setText(alumno.getNombre() + " " + alumno.getApellidos());
+        profesorMatricula = (Profesor)data;
+        jtfProfesor.setText(profesorMatricula.getNombre() + " " + profesorMatricula.getApellidos());
         
-        updateTable(alumno);
+        loadCursosProfesor(profesorMatricula.getId());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -395,17 +383,27 @@ public class MatriculaFrame extends javax.swing.JFrame implements TransferData{
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JButton jbActualizarTabla;
-    private javax.swing.JButton jbElegirAlumno;
-    private javax.swing.JButton jbMatricular;
-    private javax.swing.JButton jbNuevaMatricula;
+    private javax.swing.JButton jbCargarDatos;
+    private javax.swing.JButton jbElegirProfesor;
+    private javax.swing.JButton jbGuardarDatos;
+    private javax.swing.JComboBox<String> jcbCursos;
     private javax.swing.JComboBox<String> jcbGrado;
     private javax.swing.JLabel jlCursosJalados;
     private javax.swing.JLabel jlTitulo;
     private javax.swing.JLabel jlTotalRegistros;
-    private javax.swing.JTable jtCursos;
-    private javax.swing.JTextField jtfAlumno;
-    private javax.swing.JTextField jtfId;
+    private javax.swing.JTable jtNotas;
+    private javax.swing.JTextField jtfProfesor;
     // End of variables declaration//GEN-END:variables
+
+    private void loadCursosProfesor(long id) {
+        
+        cursosProfesor = cursoController.getCoursesByProfesor(id);
+        
+        jcbCursos.removeAllItems();
+        for(Curso curso : cursosProfesor){
+            jcbCursos.addItem(curso.getNombre());
+        }
+        
+    }
    
 }

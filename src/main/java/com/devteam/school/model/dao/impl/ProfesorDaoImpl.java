@@ -25,27 +25,30 @@ public class ProfesorDaoImpl implements ProfesorDao {
 
     @Override
     public Profesor save(Profesor profesor) {
-        simpleJdbcCall = new SimpleJdbcCall(dataSource)
-                .withProcedureName("usp_insert_profesor")
-                .returningResultSet("profesores",new ProfesorMapper());
+        try{
+            simpleJdbcCall = new SimpleJdbcCall(dataSource)
+                    .withProcedureName("usp_insert_profesor")
+                    .returningResultSet("profesores",new ProfesorMapper());
 
-        SqlParameterSource sqlParameterSourceIn = new MapSqlParameterSource()
-                .addValue("nombre", profesor.getNombre())
-                .addValue("apellidos", profesor.getApellidos())
-                .addValue("dni", profesor.getDni())
-                .addValue("email", profesor.getEmail())
-                .addValue("sueldo", profesor.getSueldo())
-                .addValue("direccion", profesor.getDireccion())
-                .addValue("Username", profesor.getUsername())
-                .addValue("Password", profesor.getPassword());
+            SqlParameterSource sqlParameterSourceIn = new MapSqlParameterSource()
+                    .addValue("nombre", profesor.getNombre())
+                    .addValue("apellidos", profesor.getApellidos())
+                    .addValue("dni", profesor.getDni())
+                    .addValue("email", profesor.getEmail())
+                    .addValue("sueldo", profesor.getSueldo())
+                    .addValue("direccion", profesor.getDireccion())
+                    .addValue("Username", profesor.getUsername())
+                    .addValue("Password", profesor.getPassword());
 
-        Map map = simpleJdbcCall.execute(sqlParameterSourceIn);
+            Map map = simpleJdbcCall.execute(sqlParameterSourceIn);
 
-        List list = (List) map.get("profesores");
-        if (list.isEmpty())
+            List list = (List) map.get("profesores");
+            if (list.isEmpty())
+                return null;
+            return (Profesor) list.get(0);
+        }catch (Exception e){
             return null;
-        return (Profesor) list.get(0);
-
+        }
     }
 
     @Override
@@ -77,28 +80,49 @@ public class ProfesorDaoImpl implements ProfesorDao {
     }
 
     @Override
-    public Profesor update(Profesor profesor) {
+    public Profesor findByUsername(String username) {
         simpleJdbcCall = new SimpleJdbcCall(dataSource)
-                .withProcedureName("usp_update_profesor")
-                .returningResultSet("profesores",new ProfesorMapper());
+                .withProcedureName("usp_find_profesor_by_username")
+                .returningResultSet("fields",new ProfesorMapper());
 
         SqlParameterSource sqlParameterSourceIn = new MapSqlParameterSource()
-                .addValue("id", profesor.getId())
-                .addValue("nombre", profesor.getNombre())
-                .addValue("apellidos", profesor.getApellidos())
-                .addValue("dni", profesor.getDni())
-                .addValue("email", profesor.getEmail())
-                .addValue("sueldo", profesor.getSueldo())
-                .addValue("direccion", profesor.getDireccion())
-                .addValue("Username", profesor.getUsername())
-                .addValue("Password", profesor.getPassword());
+                .addValue("username", username);
 
         Map map = simpleJdbcCall.execute(sqlParameterSourceIn);
 
-        List list = (List) map.get("profesores");
+        List list = (List) map.get("fields");
         if (list.isEmpty())
             return null;
         return (Profesor) list.get(0);
+    }
+
+    @Override
+    public Profesor update(Profesor profesor) {
+        try{
+            simpleJdbcCall = new SimpleJdbcCall(dataSource)
+                    .withProcedureName("usp_update_profesor")
+                    .returningResultSet("profesores",new ProfesorMapper());
+
+            SqlParameterSource sqlParameterSourceIn = new MapSqlParameterSource()
+                    .addValue("id", profesor.getId())
+                    .addValue("nombre", profesor.getNombre())
+                    .addValue("apellidos", profesor.getApellidos())
+                    .addValue("dni", profesor.getDni())
+                    .addValue("email", profesor.getEmail())
+                    .addValue("sueldo", profesor.getSueldo())
+                    .addValue("direccion", profesor.getDireccion())
+                    .addValue("Username", profesor.getUsername())
+                    .addValue("Password", profesor.getPassword());
+
+            Map map = simpleJdbcCall.execute(sqlParameterSourceIn);
+
+            List list = (List) map.get("profesores");
+            if (list.isEmpty())
+                return null;
+            return (Profesor) list.get(0);
+        }catch (Exception e){
+            return null;
+        }
     }
 
     @Override

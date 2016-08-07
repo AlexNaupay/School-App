@@ -18,4 +18,6 @@ public interface ProfesorDao {
 
     List<Profesor> search(String searchPattern);
 
+    Profesor findByUsername(String username);
+
 }

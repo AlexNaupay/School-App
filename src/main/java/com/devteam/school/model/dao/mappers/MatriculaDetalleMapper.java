@@ -21,11 +21,16 @@ public class MatriculaDetalleMapper implements RowMapper<MatriculaDetalle> {
         mdetalle.setMatriculaId(result.getLong("MatriculaId"));
         mdetalle.setCursoId(result.getLong("CursoId"));
 
-        mdetalle.setCursoNombre(result.getString("CursoNombre"));
-        mdetalle.setProfesorNombre(result.getString("ProfesorNombre"));
-        mdetalle.setAlumnoNombre(result.getString("AlumnoNombre"));
-        mdetalle.setGrado(result.getInt("Grado"));
+        try{
+            mdetalle.setCursoNombre(result.getString("CursoNombre"));
+            mdetalle.setProfesorNombre(result.getString("ProfesorNombre"));
+            mdetalle.setAlumnoNombre(result.getString("AlumnoNombre"));
+            mdetalle.setGrado(result.getInt("Grado"));
+            return mdetalle;
+        }catch (Exception e){
+            System.out.println("Algún campo extra no encontrado");
+            return mdetalle;
+        }
 
-        return mdetalle;
     }
 }

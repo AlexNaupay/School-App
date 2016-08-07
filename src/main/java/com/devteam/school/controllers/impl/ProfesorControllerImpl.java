@@ -50,7 +50,12 @@ public class ProfesorControllerImpl implements ProfesorController {
     public boolean deleteProfesor(long id) {
         return profesorService.delete(id);
     }
-    
+
+    @Override
+    public Profesor getProfesorByUsername(String username) {
+        return profesorService.findByUsername(username);
+    }
+
     private boolean validarProfesor(Profesor profesor){
         
         if(profesor.getNombre().isEmpty()){

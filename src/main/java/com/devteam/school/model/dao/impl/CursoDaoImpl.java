@@ -119,4 +119,19 @@ public class CursoDaoImpl implements CursoDao {
         List list = (List) map.get("cursos");
         return  (List<Curso>) list;
     }
+
+    @Override
+    public List<Curso> findCoursesByProfesor(long profesorId) {
+        simpleJdbcCall = new SimpleJdbcCall(dataSource)
+                .withProcedureName("usp_find_curso_by_profesor")
+                .returningResultSet("profesors",new CursoMapper());
+
+        SqlParameterSource sqlParameterSourceIn = new MapSqlParameterSource()
+                .addValue("profesor_id", profesorId);
+
+        Map map = simpleJdbcCall.execute(sqlParameterSourceIn);
+
+        List list = (List) map.get("profesors");
+        return  (List<Curso>) list;
+    }
 }

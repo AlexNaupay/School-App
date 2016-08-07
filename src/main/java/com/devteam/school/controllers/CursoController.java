@@ -17,4 +17,6 @@ public interface CursoController {
     Curso getCursoById(int id);
 
     boolean deleteCurso(long id);
+
+    List<Curso> getCoursesByProfesor(long profesorId);
 }

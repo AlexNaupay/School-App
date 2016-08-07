@@ -18,4 +18,6 @@ public interface CursoDao {
 
     List<Curso> search(String searchPattern);
 
+    List<Curso> findCoursesByProfesor(long profesorId);
+
 }

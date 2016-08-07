@@ -43,4 +43,9 @@ public class ProfesorServiceImpl implements ProfesorService{
     public List<Profesor> search(String searchPattern) {
         return profesorDao.search(searchPattern);
     }
+
+    @Override
+    public Profesor findByUsername(String username) {
+        return profesorDao.findByUsername(username);
+    }
 }

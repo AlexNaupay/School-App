@@ -3,6 +3,7 @@ package com.devteam.school.model.services;
 
 import com.devteam.school.model.entities.Matricula;
 import com.devteam.school.model.entities.MatriculaDetalle;
+import com.devteam.school.model.entities.Profesor;
 
 import java.util.List;
 
@@ -15,5 +16,9 @@ public interface MatriculaService {
     Matricula saveMatricula(Matricula matricula);
 
     Matricula updateMatricula(Matricula matricula);
+
+    List<MatriculaDetalle> updateMatriculasDetalle(List<MatriculaDetalle> detalles);
+
+    Profesor login(String user, String password);
 
 }

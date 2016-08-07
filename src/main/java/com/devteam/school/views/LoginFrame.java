@@ -1,9 +1,18 @@
 package com.devteam.school.views;
 
+import com.devteam.school.app.AppContext;
+import com.devteam.school.app.Utils;
+import com.devteam.school.controllers.MatriculaController;
+import java.awt.event.KeyEvent;
+
 public class LoginFrame extends javax.swing.JFrame {
+    
+    MatriculaController matriculaController;
 
     public LoginFrame() {
         initComponents(); 
+        
+        matriculaController = (MatriculaController) AppContext.getAppContext().getBean("matriculaController");
     }
 
     /**
@@ -18,20 +27,34 @@ public class LoginFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jlUsuario = new javax.swing.JTextField();
-        jlPassword = new javax.swing.JPasswordField();
+        jtfUsuario = new javax.swing.JTextField();
+        jtfPassword = new javax.swing.JPasswordField();
         jbIngresar = new javax.swing.JButton();
         jbSalir = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Autenticación");
+        setTitle("Iniciar Sesión");
         setAlwaysOnTop(true);
+        setResizable(false);
 
         jLabel1.setText("Usuario:");
 
         jLabel2.setText("Password:");
 
+        jtfUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtfUsuarioKeyReleased(evt);
+            }
+        });
+
+        jtfPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtfPasswordKeyPressed(evt);
+            }
+        });
+
+        jbIngresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/user_go.png"))); // NOI18N
         jbIngresar.setText("Ingresar");
         jbIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -39,6 +62,7 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
 
+        jbSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cancel.png"))); // NOI18N
         jbSalir.setText("Salir");
         jbSalir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -46,8 +70,7 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/home-user-icon-2.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Power-Lock.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -55,47 +78,46 @@ public class LoginFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(44, 44, 44)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jbSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbIngresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jlUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
-                    .addComponent(jlPassword))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(43, 43, 43))
+                    .addComponent(jtfUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                    .addComponent(jtfPassword))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jlPassword, jlUsuario});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jtfPassword, jtfUsuario});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel3)
-                .addContainerGap(22, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(44, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbIngresar)
-                    .addComponent(jbSalir))
+                    .addComponent(jLabel4)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabel1)
+                            .addComponent(jtfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabel2)
+                            .addComponent(jtfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jbSalir)
+                            .addComponent(jbIngresar))))
                 .addGap(43, 43, 43))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jlPassword, jlUsuario});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jtfPassword, jtfUsuario});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -113,62 +135,74 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void jbIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIngresarActionPerformed
         // TODO add your handling code here:
-         AppFrame app = new AppFrame();
-         app.setLocationRelativeTo(null);
-         app.setVisible(true);
-         
-         dispose();
+         login(); 
     }//GEN-LAST:event_jbIngresarActionPerformed
 
+    private void launchHome() {
+        AppFrame app = new AppFrame();
+        app.setLocationRelativeTo(null);
+        app.setVisible(true);
+         
+        dispose();
+    }
+    
+    private boolean checkFields(String user, String password){
+        if(user.isEmpty()){
+            Utils.showErrorMessage(rootPane, "El usuario es obligatorio");
+            return false;
+        }
+        if(password.isEmpty()){
+            Utils.showErrorMessage(rootPane, "Ingrese su contraseña");
+            return false;
+        }
+        
+        return true;
+    }
+    
+    private void login(){
+        String user = jtfUsuario.getText();
+        String password = jtfPassword.getText();
+         
+        if(checkFields(user, password)){
+            if(matriculaController.login(user, password)){
+                launchHome();
+            }else{
+                Utils.showErrorMessage(rootPane, "Usuario o contraseña incorrectas");
+            }
+        }
+    }
+    
     private void jbSalirMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbSalirMouseReleased
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jbSalirMouseReleased
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    private void jtfPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfPasswordKeyPressed
+        // TODO add your handling code here:
+        processKeyEvent_(evt);
+    }//GEN-LAST:event_jtfPasswordKeyPressed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginFrame().setVisible(true);
-            }
-        });
+    private void jtfUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfUsuarioKeyReleased
+        // TODO add your handling code here:
+        processKeyEvent_(evt);
+    }//GEN-LAST:event_jtfUsuarioKeyReleased
+
+    private void processKeyEvent_(java.awt.event.KeyEvent evt){
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            login();
+        }
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton jbIngresar;
     private javax.swing.JButton jbSalir;
-    private javax.swing.JPasswordField jlPassword;
-    private javax.swing.JTextField jlUsuario;
+    private javax.swing.JPasswordField jtfPassword;
+    private javax.swing.JTextField jtfUsuario;
     // End of variables declaration//GEN-END:variables
+
 }

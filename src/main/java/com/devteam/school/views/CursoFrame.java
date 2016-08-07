@@ -131,6 +131,7 @@ public class CursoFrame extends javax.swing.JFrame implements TransferData{
         });
 
         jLabel4.setBackground(new java.awt.Color(255, 179, 0));
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ballon.png"))); // NOI18N
         jLabel4.setText("Añada un curso solo al INICIO del Año escolar, CUIDADO!!");
         jLabel4.setOpaque(true);
 
@@ -191,7 +192,7 @@ public class CursoFrame extends javax.swing.JFrame implements TransferData{
                     .addComponent(jtfProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addGap(47, 47, 47)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbGuardar)
@@ -455,7 +456,7 @@ public class CursoFrame extends javax.swing.JFrame implements TransferData{
         // TODO add your handling code here:
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ProfesorChooseDialog dialog = new ProfesorChooseDialog( cursoFrame, true);
+                ProfesorChooserDialog dialog = new ProfesorChooserDialog( cursoFrame, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

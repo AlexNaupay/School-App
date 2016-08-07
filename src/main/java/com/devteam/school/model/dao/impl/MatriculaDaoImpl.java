@@ -91,5 +91,24 @@ public class MatriculaDaoImpl implements MatriculaDao{
         return (Matricula) list.get(0);
     }
 
+    @Override
+    public MatriculaDetalle updateDetalleMatricula(MatriculaDetalle matriculaDetalle) {
+        simpleJdbcCall = new SimpleJdbcCall(dataSource)
+                .withProcedureName("usp_update_matricula_detalle")
+                .returningResultSet("detalles",new MatriculaDetalleMapper());
+
+        SqlParameterSource sqlParameterSourceIn = new MapSqlParameterSource()
+                .addValue("id", matriculaDetalle.getId())
+                .addValue("Nota1", matriculaDetalle.getNota1())
+                .addValue("Nota2", matriculaDetalle.getNota2())
+                .addValue("Nota3", matriculaDetalle.getNota3());
+        Map map = simpleJdbcCall.execute(sqlParameterSourceIn);
+
+        List list = (List) map.get("detalles");
+        if (list.isEmpty())
+            return null;
+        return (MatriculaDetalle) list.get(0);
+    }
+
 
 }

@@ -3,6 +3,7 @@
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -29,53 +30,43 @@
               <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="121" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jButton3" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jbMatriculaLauncher" min="-2" max="-2" attributes="0"/>
-                          <Component id="jbProfesorLauncher" min="-2" pref="75" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="520" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="jbAlumnoLaucher" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jbCorsoLaucher" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
-                              <Component id="jButton2" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                  </Group>
+                  <Component id="jbProfesorLauncher" linkSize="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jbMatriculaLauncher" linkSize="1" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="jbLlenarNotaLauncher" linkSize="1" max="32767" attributes="0"/>
+                  <Component id="jbAlumnoLaucher" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jbCursoLaucher" linkSize="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jbConsultaNotasLauncher" linkSize="1" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jbProfesorLauncher" alignment="0" min="-2" pref="75" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jbAlumnoLaucher" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jbCorsoLaucher" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="jbProfesorLauncher" linkSize="2" alignment="2" min="-2" pref="101" max="-2" attributes="0"/>
+                  <Component id="jbAlumnoLaucher" linkSize="2" alignment="2" min="-2" pref="101" max="-2" attributes="0"/>
+                  <Component id="jbCursoLaucher" linkSize="2" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jbMatriculaLauncher" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="jbConsultaNotasLauncher" linkSize="2" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="jbLlenarNotaLauncher" linkSize="2" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="jbMatriculaLauncher" linkSize="2" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jButton3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="470" max="32767" attributes="0"/>
+              <EmptySpace pref="77" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -86,14 +77,18 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/images/Graduation-2.png"/>
         </Property>
+        <Property name="text" type="java.lang.String" value="PROFESOR"/>
         <Property name="toolTipText" type="java.lang.String" value="Profesores"/>
-        <Property name="enabled" type="boolean" value="false"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+            <EmptyBorder/>
+          </Border>
+        </Property>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[75, 75]"/>
         </Property>
-        <Property name="rolloverIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/images/table_refresh.png"/>
-        </Property>
+        <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
         <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jbProfesorLauncherMouseReleased"/>
@@ -101,18 +96,40 @@
     </Component>
     <Component class="javax.swing.JButton" name="jbAlumnoLaucher">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Alumnos"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/images/students.png"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="ALUMNOS"/>
+        <Property name="toolTipText" type="java.lang.String" value="Alumnos"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+            <EmptyBorder/>
+          </Border>
+        </Property>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
         <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jbAlumnoLaucherMouseReleased"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jbCorsoLaucher">
+    <Component class="javax.swing.JButton" name="jbCursoLaucher">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cursos"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/images/courses.png"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="CURSOS"/>
+        <Property name="toolTipText" type="java.lang.String" value="Cursos"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+            <EmptyBorder/>
+          </Border>
+        </Property>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jbCorsoLaucherMouseReleased"/>
+        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jbCursoLaucherMouseReleased"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
@@ -121,26 +138,65 @@
           <Font name="Droid Sans" size="18" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Pedrito High School"/>
+        <Property name="text" type="java.lang.String" value="PEDRITO HIGH SCHOOL"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jbMatriculaLauncher">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Matr&#xed;cula"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/images/matricular.png"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="MATR&#xcd;CULA"/>
+        <Property name="toolTipText" type="java.lang.String" value="Matr&#xed;cula"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+            <EmptyBorder/>
+          </Border>
+        </Property>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
       <Events>
         <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jbMatriculaLauncherMouseReleased"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="jbLlenarNotaLauncher">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Consultar Notas"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/images/fill.png"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="CALIFICAR"/>
+        <Property name="toolTipText" type="java.lang.String" value="Llenado de Notas"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+            <EmptyBorder/>
+          </Border>
+        </Property>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jbLlenarNotaLauncherMouseReleased"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton3">
+    <Component class="javax.swing.JButton" name="jbConsultaNotasLauncher">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Llenar Notas"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/images/query.png"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="CONSULTA"/>
+        <Property name="toolTipText" type="java.lang.String" value="Consultar Notas"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+            <EmptyBorder/>
+          </Border>
+        </Property>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+        <Property name="verticalTextPosition" type="int" value="3"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jbConsultaNotasLauncherMouseReleased"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

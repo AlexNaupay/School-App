@@ -2,32 +2,37 @@ package com.devteam.school.views;
 
 import com.devteam.school.app.AppContext;
 import com.devteam.school.app.TableModelSchool;
-import com.devteam.school.controllers.AlumnoController;
-import com.devteam.school.model.entities.Alumno;
+import com.devteam.school.controllers.CursoController;
+import com.devteam.school.controllers.ProfesorController;
+import com.devteam.school.model.entities.Curso;
+import com.devteam.school.model.entities.Profesor;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 
-public class AlumnoChooserDialog extends javax.swing.JDialog {
+public class CursoChooserDialog extends javax.swing.JDialog {
     
-    AlumnoController alumnoController;
-    private List<Alumno> alumnos;
+    private final CursoController cursoController;
+    private final ProfesorController profesorController;
+    private List<Curso> cursos;
     
     TransferData transferData;
 
     /**
-     * Creates new form AlumnoChooseDialog
+     * Creates new form CursoChooserDialog
      * @param parent
      * @param modal
      */
-    public AlumnoChooserDialog(java.awt.Frame parent, boolean modal) {
+    public CursoChooserDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         
-        alumnoController = (AlumnoController) AppContext.getAppContext().getBean("alumnoController");
-        alumnos = alumnoController.getAlumnos();
-        fillTable( alumnos );
+        cursoController = (CursoController) AppContext.getAppContext().getBean("cursoController");
+        profesorController = (ProfesorController) AppContext.getAppContext().getBean("profesorController");
+        
+        cursos = cursoController.getCursos();
+        fillTable( cursos );
     }
 
     /**
@@ -41,7 +46,7 @@ public class AlumnoChooserDialog extends javax.swing.JDialog {
 
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jtAlumnos = new javax.swing.JTable();
+        jtCursos = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         jtfTextoBuscar = new javax.swing.JTextField();
         jbBuscar = new javax.swing.JButton();
@@ -56,7 +61,7 @@ public class AlumnoChooserDialog extends javax.swing.JDialog {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jtAlumnos.setModel(new javax.swing.table.DefaultTableModel(
+        jtCursos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -64,12 +69,12 @@ public class AlumnoChooserDialog extends javax.swing.JDialog {
 
             }
         ));
-        jtAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
+        jtCursos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtAlumnosMouseClicked(evt);
+                jtCursosMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(jtAlumnos);
+        jScrollPane3.setViewportView(jtCursos);
 
         jLabel9.setText("Buscar");
 
@@ -140,7 +145,7 @@ public class AlumnoChooserDialog extends javax.swing.JDialog {
 
         jlTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jlTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlTitulo.setText("ALUMNOS REGISTRADOS");
+        jlTitulo.setText("CURSOS REGISTRADOS");
         jlTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jbAcceptDialog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/accept.png"))); // NOI18N
@@ -198,16 +203,16 @@ public class AlumnoChooserDialog extends javax.swing.JDialog {
         this.transferData = transferData;
     }
     
-    private void jtAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtAlumnosMouseClicked
+    private void jtCursosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtCursosMouseClicked
         // TODO add your handling code here:
         
         if(evt.getClickCount() == 2){
-            int indexRowSelected = jtAlumnos.rowAtPoint(evt.getPoint());
-            transferData.transfer(alumnos.get(indexRowSelected));
+            int indexRowSelected = jtCursos.rowAtPoint(evt.getPoint());
+            transferData.transfer(cursos.get(indexRowSelected));
             dispose();
         }
        
-    }//GEN-LAST:event_jtAlumnosMouseClicked
+    }//GEN-LAST:event_jtCursosMouseClicked
 
     private void jtfTextoBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfTextoBuscarKeyReleased
         // TODO add your handling code here:
@@ -235,39 +240,38 @@ public class AlumnoChooserDialog extends javax.swing.JDialog {
 
     private void jbAcceptDialogMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbAcceptDialogMouseReleased
         // TODO add your handling code here:
-        int indexRowSelected = jtAlumnos.getSelectedRow();
-        transferData.transfer(alumnos.get(indexRowSelected));
+        int indexRowSelected = jtCursos.getSelectedRow();
+        transferData.transfer(cursos.get(indexRowSelected));
         dispose();
         
     }//GEN-LAST:event_jbAcceptDialogMouseReleased
 
     private void search(){
         String searchText = jtfTextoBuscar.getText();
-        alumnos = alumnoController.searchAlumnos(searchText);
-        fillTable(alumnos);
+        cursos = cursoController.searchCursos(searchText);
+        fillTable(cursos);
     }
     
-    private void fillTable(List<Alumno> alumnos){
-        String[] titles = {"ID", "Nombre", "Apellidos", "Teléfono", "email", "Dirección", "Fecha de Nacimiento"};
+    private void fillTable(List<Curso> cursos){
+        String[] titles = {"ID", "Nombre", "Descripción", "Profesor"};
         DefaultTableModel model = new TableModelSchool(null, titles);
 
-        String[] row = new String[7];
-           
-        for (Alumno alumno : alumnos){
-            row[0] = String.valueOf( alumno.getId() );
-            row[1] = alumno.getNombre();
-            row[2] = alumno.getApellidos();
-            row[3] = alumno.getTelefono();
-            row[4] = alumno.getEmail();
-            row[5] = alumno.getDireccion();
-            row[6] = alumno.getFechaNacimiento().toString();
-            //row[7] = alumno.getPassword();
+        String[] row = new String[4];
+
+        Profesor profesor;
+                
+        for (Curso curso : cursos){
+            row[0] = String.valueOf( curso.getId() );
+            row[1] = curso.getNombre();
+            row[2] = curso.getDescripcion();
+            profesor = profesorController.getProfesorById(curso.getProfesorId());
+            row[3] = profesor.getNombre() + " " + profesor.getApellidos();
 
             model.addRow(row);
         }
 
-        jtAlumnos.setModel(model);
-        jlTotalRegistros.setText( alumnos.size() + " Alumnos");
+        jtCursos.setModel(model);
+        jlTotalRegistros.setText( cursos.size() + " cursos");
     }
     
 
@@ -281,7 +285,7 @@ public class AlumnoChooserDialog extends javax.swing.JDialog {
     private javax.swing.JButton jbCancelDialog;
     private javax.swing.JLabel jlTitulo;
     private javax.swing.JLabel jlTotalRegistros;
-    private javax.swing.JTable jtAlumnos;
+    private javax.swing.JTable jtCursos;
     private javax.swing.JTextField jtfTextoBuscar;
     // End of variables declaration//GEN-END:variables
 

@@ -17,4 +17,6 @@ public interface ProfesorController {
     Profesor getProfesorById(long id);
 
     boolean deleteProfesor(long id);
+
+    Profesor getProfesorByUsername(String username);
 }

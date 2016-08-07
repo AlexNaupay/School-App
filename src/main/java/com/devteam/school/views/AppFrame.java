@@ -5,12 +5,9 @@
  */
 package com.devteam.school.views;
 
-import com.devteam.school.app.AppContext;
 
-/**
- *
- * @author alexh
- */
+import com.devteam.school.app.Session;
+
 public class AppFrame extends javax.swing.JFrame {
 
     /**
@@ -18,6 +15,16 @@ public class AppFrame extends javax.swing.JFrame {
      */
     public AppFrame() {
         initComponents();
+
+        Session session = Session.getSession();
+        if (session != null){
+            if(session.getUserid() != 0){ // No admin user
+                jbProfesorLauncher.setEnabled(false);
+                jbAlumnoLaucher.setEnabled(false);
+                jbCursoLaucher.setEnabled(false);
+                jbMatriculaLauncher.setEnabled(false);
+            }
+        }
     }
 
     /**
@@ -31,53 +38,91 @@ public class AppFrame extends javax.swing.JFrame {
 
         jbProfesorLauncher = new javax.swing.JButton();
         jbAlumnoLaucher = new javax.swing.JButton();
-        jbCorsoLaucher = new javax.swing.JButton();
+        jbCursoLaucher = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jbMatriculaLauncher = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jbLlenarNotaLauncher = new javax.swing.JButton();
+        jbConsultaNotasLauncher = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jbProfesorLauncher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Graduation-2.png"))); // NOI18N
+        jbProfesorLauncher.setText("PROFESOR");
         jbProfesorLauncher.setToolTipText("Profesores");
-        jbProfesorLauncher.setEnabled(false);
+        jbProfesorLauncher.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jbProfesorLauncher.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jbProfesorLauncher.setPreferredSize(new java.awt.Dimension(75, 75));
-        jbProfesorLauncher.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/table_refresh.png"))); // NOI18N
+        jbProfesorLauncher.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jbProfesorLauncher.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jbProfesorLauncherMouseReleased(evt);
             }
         });
 
-        jbAlumnoLaucher.setText("Alumnos");
+        jbAlumnoLaucher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/students.png"))); // NOI18N
+        jbAlumnoLaucher.setText("ALUMNOS");
+        jbAlumnoLaucher.setToolTipText("Alumnos");
+        jbAlumnoLaucher.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jbAlumnoLaucher.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jbAlumnoLaucher.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jbAlumnoLaucher.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jbAlumnoLaucherMouseReleased(evt);
             }
         });
 
-        jbCorsoLaucher.setText("Cursos");
-        jbCorsoLaucher.addMouseListener(new java.awt.event.MouseAdapter() {
+        jbCursoLaucher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/courses.png"))); // NOI18N
+        jbCursoLaucher.setText("CURSOS");
+        jbCursoLaucher.setToolTipText("Cursos");
+        jbCursoLaucher.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jbCursoLaucher.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jbCursoLaucher.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jbCursoLaucher.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jbCorsoLaucherMouseReleased(evt);
+                jbCursoLaucherMouseReleased(evt);
             }
         });
 
         jLabel1.setFont(new java.awt.Font("Droid Sans", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Pedrito High School");
+        jLabel1.setText("PEDRITO HIGH SCHOOL");
 
-        jbMatriculaLauncher.setText("Matrícula");
+        jbMatriculaLauncher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/matricular.png"))); // NOI18N
+        jbMatriculaLauncher.setText("MATRÍCULA");
+        jbMatriculaLauncher.setToolTipText("Matrícula");
+        jbMatriculaLauncher.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jbMatriculaLauncher.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jbMatriculaLauncher.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jbMatriculaLauncher.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jbMatriculaLauncherMouseReleased(evt);
             }
         });
 
-        jButton2.setText("Consultar Notas");
+        jbLlenarNotaLauncher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fill.png"))); // NOI18N
+        jbLlenarNotaLauncher.setText("CALIFICAR");
+        jbLlenarNotaLauncher.setToolTipText("Llenado de Notas");
+        jbLlenarNotaLauncher.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jbLlenarNotaLauncher.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jbLlenarNotaLauncher.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jbLlenarNotaLauncher.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbLlenarNotaLauncherMouseReleased(evt);
+            }
+        });
 
-        jButton3.setText("Llenar Notas");
+        jbConsultaNotasLauncher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/query.png"))); // NOI18N
+        jbConsultaNotasLauncher.setText("CONSULTA");
+        jbConsultaNotasLauncher.setToolTipText("Consultar Notas");
+        jbConsultaNotasLauncher.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jbConsultaNotasLauncher.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jbConsultaNotasLauncher.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jbConsultaNotasLauncher.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbConsultaNotasLauncherMouseReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,99 +133,136 @@ public class AppFrame extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(121, 121, 121)
+                .addGap(94, 94, 94)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jbMatriculaLauncher)
-                            .addComponent(jbProfesorLauncher, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(520, 520, 520)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jbAlumnoLaucher)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jbCorsoLaucher))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(jButton2)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jbProfesorLauncher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbMatriculaLauncher))
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jbLlenarNotaLauncher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbAlumnoLaucher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbCursoLaucher)
+                    .addComponent(jbConsultaNotasLauncher))
+                .addGap(92, 92, 92))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jbConsultaNotasLauncher, jbCursoLaucher, jbLlenarNotaLauncher, jbMatriculaLauncher, jbProfesorLauncher});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addGap(22, 22, 22)
                 .addComponent(jLabel1)
-                .addGap(54, 54, 54)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jbProfesorLauncher, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jbAlumnoLaucher)
-                        .addComponent(jbCorsoLaucher)))
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jbProfesorLauncher, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbAlumnoLaucher, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbCursoLaucher))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbMatriculaLauncher)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addContainerGap(470, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jbConsultaNotasLauncher)
+                    .addComponent(jbLlenarNotaLauncher)
+                    .addComponent(jbMatriculaLauncher))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jbAlumnoLaucher, jbConsultaNotasLauncher, jbCursoLaucher, jbLlenarNotaLauncher, jbMatriculaLauncher, jbProfesorLauncher});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbProfesorLauncherMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbProfesorLauncherMouseReleased
         // TODO add your handling code here:
+        if(jbProfesorLauncher.isEnabled()){
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 ProfesorFrame form = ProfesorFrame.getInstance();
                 form.setVisible(true);
                 form.toFront();
             }
         });
+        }
+        
     }//GEN-LAST:event_jbProfesorLauncherMouseReleased
 
     private void jbAlumnoLaucherMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbAlumnoLaucherMouseReleased
         // TODO add your handling code here:
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                AlumnoFrame form = AlumnoFrame.getInstance();
-                form.setVisible(true);
-                form.toFront();
-            }
-        });
+        if(jbAlumnoLaucher.isEnabled()){
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    AlumnoFrame form = AlumnoFrame.getInstance();
+                    form.setVisible(true);
+                    form.toFront();
+                }
+            });
+        }
     }//GEN-LAST:event_jbAlumnoLaucherMouseReleased
 
-    private void jbCorsoLaucherMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbCorsoLaucherMouseReleased
+    private void jbCursoLaucherMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbCursoLaucherMouseReleased
         // TODO add your handling code here:
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                CursoFrame form = CursoFrame.getInstance();
-                form.setVisible(true);
-                form.toFront();
-            }
-        });
-    }//GEN-LAST:event_jbCorsoLaucherMouseReleased
+        if(jbCursoLaucher.isEnabled()){
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    CursoFrame form = CursoFrame.getInstance();
+                    form.setVisible(true);
+                    form.toFront();
+                }
+            });
+        }
+    }//GEN-LAST:event_jbCursoLaucherMouseReleased
 
     private void jbMatriculaLauncherMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbMatriculaLauncherMouseReleased
         // TODO add your handling code here:
+        if( jbMatriculaLauncher.isEnabled()){
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    MatriculaFrame form = MatriculaFrame.getInstance();
+                    form.setVisible(true);
+                    form.toFront();
+                }
+            });
+        }
+    }//GEN-LAST:event_jbMatriculaLauncherMouseReleased
+
+    private void jbLlenarNotaLauncherMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbLlenarNotaLauncherMouseReleased
+        // TODO add your handling code here:
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                MatriculaFrame form = MatriculaFrame.getInstance();
+                LlenarNotasFrame form = LlenarNotasFrame.getInstance();
                 form.setVisible(true);
                 form.toFront();
             }
         });
-    }//GEN-LAST:event_jbMatriculaLauncherMouseReleased
+        
+    }//GEN-LAST:event_jbLlenarNotaLauncherMouseReleased
+
+    private void jbConsultaNotasLauncherMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbConsultaNotasLauncherMouseReleased
+        // TODO add your handling code here:
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                ConsultaNotasFrame form = ConsultaNotasFrame.getInstance();
+                form.setVisible(true);
+                form.toFront();
+            }
+        });
+    }//GEN-LAST:event_jbConsultaNotasLauncherMouseReleased
 
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton jbAlumnoLaucher;
-    private javax.swing.JButton jbCorsoLaucher;
+    private javax.swing.JButton jbConsultaNotasLauncher;
+    private javax.swing.JButton jbCursoLaucher;
+    private javax.swing.JButton jbLlenarNotaLauncher;
     private javax.swing.JButton jbMatriculaLauncher;
     private javax.swing.JButton jbProfesorLauncher;
     // End of variables declaration//GEN-END:variables

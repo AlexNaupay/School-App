@@ -43,4 +43,9 @@ public class CursoServiceImpl implements CursoService{
     public List<Curso> search(String searchPattern) {
         return cursoDao.search(searchPattern);
     }
+
+    @Override
+    public List<Curso> findCoursesByProfesor(long profesorId) {
+        return cursoDao.findCoursesByProfesor(profesorId);
+    }
 }

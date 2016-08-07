@@ -16,4 +16,6 @@ public interface CursoService {
     boolean delete(long id);
 
     List<Curso> search(String searchPattern);
+
+    List<Curso> findCoursesByProfesor(long profesorId);
 }

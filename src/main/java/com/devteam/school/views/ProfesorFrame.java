@@ -6,9 +6,7 @@ import com.devteam.school.model.entities.Profesor;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-
 
 public class ProfesorFrame extends javax.swing.JFrame {
 
@@ -86,6 +84,7 @@ public class ProfesorFrame extends javax.swing.JFrame {
         jLabel2.setText("Nombre:");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("DATOS DEL PROFESOR"));
 

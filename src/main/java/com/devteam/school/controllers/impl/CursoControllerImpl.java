@@ -50,7 +50,12 @@ public class CursoControllerImpl implements CursoController {
     public boolean deleteCurso(long id) {
         return cursoService.delete(id);
     }
-    
+
+    @Override
+    public List<Curso> getCoursesByProfesor(long profesorId) {
+        return cursoService.findCoursesByProfesor(profesorId);
+    }
+
     private boolean validarCurso(Curso curso){
         
         if(curso.getNombre().isEmpty()){
