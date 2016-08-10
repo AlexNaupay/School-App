@@ -16,7 +16,6 @@ public class MatriculaFrame extends javax.swing.JFrame implements TransferData{
     
     private final MatriculaController matriculaController;
     
-    private String accion = "guardar";
     private Alumno alumnoMatricula;  // Alumno del matricula
 
 
@@ -285,8 +284,8 @@ public class MatriculaFrame extends javax.swing.JFrame implements TransferData{
         }
 
         jtCursos.setModel(model);
-        jlTotalRegistros.setText( mdetalles.size() + " cursos");
-        jlCursosJalados.setText(jalados + "Jalados");
+        jlTotalRegistros.setText( mdetalles.size() + " Cursos");
+        jlCursosJalados.setText(jalados + " Jalados");
     }
     
     private void jbActualizarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbActualizarTablaActionPerformed
@@ -297,36 +296,46 @@ public class MatriculaFrame extends javax.swing.JFrame implements TransferData{
     private void jbMatricularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMatricularActionPerformed
 
         int grado = jcbGrado.getSelectedIndex() + 1;
+        String id = jtfId.getText();
 
         Matricula matricula = new Matricula();
+        matricula.setId( id.isEmpty()? 0 : Integer.parseInt(id) );
         matricula.setAnio(Utils.currentYear());
         matricula.setGrado(grado);
         if (alumnoMatricula != null) matricula.setAlumnoId(alumnoMatricula.getId());
 
-
-        if (accion.equals("guardar")) {
-            matricula = matriculaController.saveMatricula(matricula);
-            if (matricula != null ) {
-                jtfId.setText(String.valueOf(matricula.getId()) );
-                //resetForm();
-                JOptionPane.showMessageDialog(rootPane, "La matrícula fue registrado correctamente");
+        if (alumnoMatricula != null){
+            Matricula temp = matriculaController.checkMatricula(matricula);
+            if (temp != null){
+                fillMatriculaForm(temp);
+                Utils.showInfoMessage(rootPane, "El alumno ya registra  matrícula este año");
                 jbMatricular.setText("Actualizar");
-                accion = "editar";
-
+                return;
             }
         }
-        else if (accion.equals("editar")){
-            matricula.setId(Integer.parseInt(jtfId.getText()));
 
+        if (matricula.getId() == 0) {  // save
+            matricula = matriculaController.saveMatricula(matricula);
+            if (matricula != null ) {
+                fillMatriculaForm(matricula);
+                JOptionPane.showMessageDialog(rootPane, "La matrícula fue registrado correctamente");
+                jbMatricular.setText("Actualizar");
+            }
+        }else{  // update
             matricula = matriculaController.updateMatricula(matricula);
             if (matricula != null ) {
-                //inhabilitar();
                 JOptionPane.showMessageDialog(rootPane, "La matrícula fue actualizado correctamente");
             }
         }
         
     }//GEN-LAST:event_jbMatricularActionPerformed
 
+    private void  fillMatriculaForm(Matricula matricula){
+        jtfId.setText(String.valueOf(matricula.getId()));
+        jcbGrado.setSelectedIndex(matricula.getGrado() - 1);
+    
+    }
+    
     private void jbElegirAlumnoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbElegirAlumnoMouseReleased
         // TODO add your handling code here:
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -336,7 +345,7 @@ public class MatriculaFrame extends javax.swing.JFrame implements TransferData{
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
+                        dialog.dispose();
                     }
                 });
                 dialog.setTransfer(matriculaFrame);
@@ -358,7 +367,7 @@ public class MatriculaFrame extends javax.swing.JFrame implements TransferData{
         jbMatricular.setText("Matricular");
         jcbGrado.setSelectedIndex(0);
         //jbMatricular.setEnabled(false);
-        accion = "guardar";
+        jtCursos.setModel(new DefaultTableModel());
     }
     
     private void updateTable(Alumno alumno){
@@ -384,6 +393,7 @@ public class MatriculaFrame extends javax.swing.JFrame implements TransferData{
         jtfAlumno.setText(alumno.getNombre() + " " + alumno.getApellidos());
         
         updateTable(alumno);
+        //jtfId.setText("");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

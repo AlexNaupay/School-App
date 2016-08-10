@@ -31,4 +31,6 @@ public interface MatriculaController {
 
     boolean login(String user, String password);
 
+    Matricula checkMatricula(Matricula matricula);
+
 }

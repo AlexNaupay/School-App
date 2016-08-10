@@ -138,7 +138,7 @@
           <Font name="Droid Sans" size="18" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="PEDRITO HIGH SCHOOL"/>
+        <Property name="text" type="java.lang.String" value="SCHOOL APP"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jbMatriculaLauncher">

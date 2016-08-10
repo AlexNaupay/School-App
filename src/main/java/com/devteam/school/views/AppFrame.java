@@ -86,7 +86,7 @@ public class AppFrame extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Droid Sans", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("PEDRITO HIGH SCHOOL");
+        jLabel1.setText("SCHOOL APP");
 
         jbMatriculaLauncher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/matricular.png"))); // NOI18N
         jbMatriculaLauncher.setText("MATRÍCULA");

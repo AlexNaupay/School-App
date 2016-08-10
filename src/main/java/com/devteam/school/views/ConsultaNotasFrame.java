@@ -30,6 +30,7 @@ public class ConsultaNotasFrame extends javax.swing.JFrame implements TransferDa
     }
 
     private void restart() {
+        jrbPorCurso.setSelected(true);
         enableCursoform();
     }
 
@@ -378,7 +379,7 @@ public class ConsultaNotasFrame extends javax.swing.JFrame implements TransferDa
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
+                        dialog.dispose();
                     }
                 });
                 dialog.setTransfer(consultaNotasFrame);
@@ -426,7 +427,7 @@ public class ConsultaNotasFrame extends javax.swing.JFrame implements TransferDa
                 dialogChooser.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
+                        dialogChooser.dispose();
                     }
                 });
                 dialogChooser.setTransfer(consultaNotasFrame);

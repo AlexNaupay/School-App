@@ -2,6 +2,7 @@ package com.devteam.school.views;
 
 import com.devteam.school.app.AppContext;
 import com.devteam.school.app.Session;
+import com.devteam.school.app.TableModelFillRecord;
 import com.devteam.school.app.Utils;
 import com.devteam.school.controllers.CursoController;
 import com.devteam.school.controllers.MatriculaController;
@@ -39,6 +40,7 @@ public class LlenarNotasFrame extends javax.swing.JFrame implements TransferData
 
     private LlenarNotasFrame() {
         initComponents();
+        jtNotas.getTableHeader().setReorderingAllowed(false);
                 
         matriculaController = (MatriculaController) AppContext.getAppContext().getBean("matriculaController");
         cursoController = (CursoController) AppContext.getAppContext().getBean("cursoController");
@@ -91,7 +93,7 @@ public class LlenarNotasFrame extends javax.swing.JFrame implements TransferData
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("DATOS DE MATRÍCULA"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("DATOS"));
 
         jtfProfesor.setEditable(false);
 
@@ -170,7 +172,7 @@ public class LlenarNotasFrame extends javax.swing.JFrame implements TransferData
         jlTitulo.setText("LLENADO  DE NOTAS");
         jlTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("NOTAS ANTERIORES"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("NOTAS"));
 
         jtNotas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -267,7 +269,7 @@ public class LlenarNotasFrame extends javax.swing.JFrame implements TransferData
         
     public void fillTable(List<MatriculaDetalle> mdetalles){
         String[] titles = {"ID", "Alumno", "Nota 1","Nota 2", "Nota 3", "Promedio"};
-        DefaultTableModel model = new DefaultTableModel(null, titles);
+        DefaultTableModel model = new TableModelFillRecord(null, titles);
 
         String[] row = new String[6];
         
@@ -299,7 +301,7 @@ public class LlenarNotasFrame extends javax.swing.JFrame implements TransferData
         List<MatriculaDetalle> detalles = new ArrayList<>();
         int numeroFilas = jtNotas.getModel().getRowCount();
 
-        System.out.println("Filasss:" + numeroFilas); 
+        // System.out.println("Filasss:" + numeroFilas); 
         
         MatriculaDetalle detalle;
         DefaultTableModel model = (DefaultTableModel) jtNotas.getModel();
@@ -315,8 +317,9 @@ public class LlenarNotasFrame extends javax.swing.JFrame implements TransferData
         }
 
         detalles = matriculaController.updateNotas(detalles);
-        if (detalles != null){
+        if (detalles != null && detalles.size() > 0){
             fillTable(detalles);
+            Utils.showInfoMessage(rootPane, "Notas gurdadas exitosamente");
         }else {
             Utils.showErrorMessage(rootPane, "Error al actualizar, contacta al Administrador");
         }
@@ -354,7 +357,7 @@ public class LlenarNotasFrame extends javax.swing.JFrame implements TransferData
                     dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                         @Override
                         public void windowClosing(java.awt.event.WindowEvent e) {
-                            System.exit(0);
+                           dialog.dispose();
                         }
                     });
                     dialog.setTransfer(llenarNotasFrame);

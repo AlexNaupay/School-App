@@ -55,20 +55,25 @@ public class MatriculaDaoImpl implements MatriculaDao{
 
     @Override
     public Matricula saveMatricula(Matricula matricula) {
-        simpleJdbcCall = new SimpleJdbcCall(dataSource)
-                .withProcedureName("usp_insert_matricula")
-                .returningResultSet("matriculas",new MatriculaMapper());
+        try{
+            simpleJdbcCall = new SimpleJdbcCall(dataSource)
+                    .withProcedureName("usp_insert_matricula")
+                    .returningResultSet("matriculas",new MatriculaMapper());
 
-        SqlParameterSource sqlParameterSourceIn = new MapSqlParameterSource()
-                .addValue("anio", matricula.getAnio())
-                .addValue("grado", matricula.getGrado())
-                .addValue("alumno_id", matricula.getAlumnoId());
-        Map map = simpleJdbcCall.execute(sqlParameterSourceIn);
+            SqlParameterSource sqlParameterSourceIn = new MapSqlParameterSource()
+                    .addValue("anio", matricula.getAnio())
+                    .addValue("grado", matricula.getGrado())
+                    .addValue("alumno_id", matricula.getAlumnoId());
+            Map map = simpleJdbcCall.execute(sqlParameterSourceIn);
 
-        List list = (List) map.get("matriculas");
-        if (list.isEmpty())
+            List list = (List) map.get("matriculas");
+            if (list.isEmpty())
+                return null;
+            return (Matricula) list.get(0);
+        }catch (Exception e){
+            System.out.println("Error en Matrícula");
             return null;
-        return (Matricula) list.get(0);
+        }
     }
 
     @Override
@@ -79,7 +84,7 @@ public class MatriculaDaoImpl implements MatriculaDao{
 
         SqlParameterSource sqlParameterSourceIn = new MapSqlParameterSource()
                 .addValue("id", matricula.getId())
-                .addValue("anio", matricula.getAnio())
+                //.addValue("anio", matricula.getAnio())
                 .addValue("grado", matricula.getGrado())
                 .addValue("alumno_id", matricula.getAlumnoId());
 
@@ -108,6 +113,24 @@ public class MatriculaDaoImpl implements MatriculaDao{
         if (list.isEmpty())
             return null;
         return (MatriculaDetalle) list.get(0);
+    }
+
+    @Override
+    public Matricula checkMatricula(Matricula matricula) {
+        simpleJdbcCall = new SimpleJdbcCall(dataSource)
+                .withProcedureName("usp_check_matricula_alumno")
+                .returningResultSet("matriculas",new MatriculaMapper());
+
+        SqlParameterSource sqlParameterSourceIn = new MapSqlParameterSource()
+                .addValue("id", matricula.getId())
+                .addValue("anio", matricula.getAnio())
+                .addValue("alumno_id", matricula.getAlumnoId());
+        Map map = simpleJdbcCall.execute(sqlParameterSourceIn);
+
+        List list = (List) map.get("matriculas");
+        if (list.isEmpty())
+            return null;
+        return (Matricula) list.get(0);
     }
 
 

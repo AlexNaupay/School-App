@@ -21,4 +21,6 @@ public interface MatriculaService {
 
     Profesor login(String user, String password);
 
+    Matricula checkMatricula(Matricula matricula);
+
 }

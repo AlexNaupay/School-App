@@ -56,7 +56,7 @@ public class MatriculaControllerImpl implements MatriculaController {
     @Override
     public Matricula updateMatricula(Matricula matricula) {
         if (validateMatricula(matricula))
-            return updateMatricula(matricula);
+            return matriculaService.updateMatricula(matricula);
         return null;
     }
 
@@ -81,6 +81,11 @@ public class MatriculaControllerImpl implements MatriculaController {
         }
 
         return true;
+    }
+
+    @Override
+    public Matricula checkMatricula(Matricula matricula) {
+        return matriculaService.checkMatricula(matricula);
     }
 
     private void setSession(long id, String username, String fullName){

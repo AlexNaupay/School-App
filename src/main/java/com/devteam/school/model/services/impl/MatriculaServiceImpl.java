@@ -68,4 +68,9 @@ public class MatriculaServiceImpl implements MatriculaService{
                 return profesor;
         return null;
     }
+
+    @Override
+    public Matricula checkMatricula(Matricula matricula) {
+        return matriculaDao.checkMatricula(matricula);
+    }
 }

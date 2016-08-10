@@ -17,4 +17,6 @@ public interface MatriculaDao {
 
     MatriculaDetalle updateDetalleMatricula(MatriculaDetalle matriculaDetalle);
 
+    Matricula checkMatricula(Matricula matricula);
+
 }
