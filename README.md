@@ -16,7 +16,7 @@ App como prueba de concepto donde se realiza mantenimientos
     ```console
     mvn install:install-file -DgroupId=com.devteam.substance -DartifactId=substance -Dversion=4.3 -Dpackaging=jar -Dfile=substance.jar -DgeneratePom=true
     mvn install:install-file -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc42 -Dversion=4.2 -Dpackaging=jar -Dfile=sqljdbc42.jar -DgeneratePom=true
-
+    ```
 - Añada los componentes de JCalendar al Palette Manager (Googlea)
 - En la carpeta de recursos se encuentra el archivo config.properties.example
     - Renombralo a config.properties
@@ -24,6 +24,7 @@ App como prueba de concepto donde se realiza mantenimientos
 - Importe el proyecto (como proyecto maven)
 - Corra el proyecto como se hace en su respectivo IDE
 - Dentro del proyecto puedes encontrar el **script** de la DB
+- Más archivos [Aquí](https://drive.google.com/open?id=0B0aDAY752D0hZDdDS3FCMnVMT3M)
 
 
 
